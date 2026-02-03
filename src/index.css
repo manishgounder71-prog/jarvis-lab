@@ -1,0 +1,94 @@
+/* CSS Reset and Base Styles */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Hologram Color Palette */
+  --color-primary: hsl(180, 100%, 50%);
+  --color-secondary: hsl(280, 100%, 60%);
+  --color-accent: hsl(320, 100%, 50%);
+  --color-bg-dark: hsl(220, 20%, 8%);
+  --color-bg-darker: hsl(220, 25%, 5%);
+  --color-text: hsl(180, 100%, 95%);
+  --color-text-dim: hsl(180, 50%, 70%);
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.3);
+  
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  
+  /* Typography */
+  --font-primary: 'Orbitron', sans-serif;
+  --font-secondary: 'Rajdhani', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-secondary);
+  background: linear-gradient(135deg, var(--color-bg-darker) 0%, var(--color-bg-dark) 100%);
+  color: var(--color-text);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* Selection */
+::selection {
+  background: var(--color-primary);
+  color: var(--color-bg-dark);
+}
+
+/* Utility Classes */
+.glow {
+  text-shadow: 0 0 10px var(--color-primary),
+               0 0 20px var(--color-primary),
+               0 0 30px var(--color-primary);
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px var(--glass-shadow);
+}

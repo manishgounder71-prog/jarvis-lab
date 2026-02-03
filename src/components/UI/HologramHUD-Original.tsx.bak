@@ -1,0 +1,100 @@
+import React from 'react';
+import './HologramHUD.css';
+
+/**
+ * Iron Man / JARVIS-style HUD overlay
+ * Provides futuristic interface elements around the hologram
+ */
+export const HologramHUD: React.FC = () => {
+    return (
+        <div className="hologram-hud">
+            {/* Corner brackets */}
+            <div className="hud-corner hud-corner-tl"></div>
+            <div className="hud-corner hud-corner-tr"></div>
+            <div className="hud-corner hud-corner-bl"></div>
+            <div className="hud-corner hud-corner-br"></div>
+            
+            {/* Scan line animation */}
+            <div className="hud-scanline"></div>
+            
+            {/* Top status bar */}
+            <div className="hud-top-bar">
+                <div className="hud-status-item">
+                    <span className="hud-label">STATUS</span>
+                    <span className="hud-value hud-value-active">ONLINE</span>
+                </div>
+                <div className="hud-status-item">
+                    <span className="hud-label">SIGNAL</span>
+                    <span className="hud-value">98.7%</span>
+                </div>
+                <div className="hud-status-item">
+                    <span className="hud-label">PROJECTION</span>
+                    <span className="hud-value hud-value-stable">STABLE</span>
+                </div>
+            </div>
+            
+            {/* Left side technical readout */}
+            <div className="hud-left-panel">
+                <div className="hud-panel-title">SYSTEM</div>
+                <div className="hud-data-line">
+                    <span className="hud-data-label">PWR:</span>
+                    <span className="hud-data-value">100%</span>
+                </div>
+                <div className="hud-data-line">
+                    <span className="hud-data-label">CPU:</span>
+                    <span className="hud-data-value">43%</span>
+                </div>
+                <div className="hud-data-line">
+                    <span className="hud-data-label">GPU:</span>
+                    <span className="hud-data-value">67%</span>
+                </div>
+                <div className="hud-data-line">
+                    <span className="hud-data-label">MEM:</span>
+                    <span className="hud-data-value">2.4GB</span>
+                </div>
+                
+                {/* Signal strength meter */}
+                <div className="hud-signal-meter">
+                    <div className="hud-signal-bar"></div>
+                    <div className="hud-signal-bar"></div>
+                    <div className="hud-signal-bar"></div>
+                    <div className="hud-signal-bar"></div>
+                    <div className="hud-signal-bar active"></div>
+                </div>
+            </div>
+            
+            {/* Right side coordinates */}
+            <div className="hud-right-panel">
+                <div className="hud-panel-title">COORDINATES</div>
+                <div className="hud-data-line">
+                    <span className="hud-data-label">X:</span>
+                    <span className="hud-data-value hud-glitch">000.00</span>
+                </div>
+                <div className="hud-data-line">
+                    <span className="hud-data-label">Y:</span>
+                    <span className="hud-data-value hud-glitch">000.00</span>
+                </div>
+                <div className="hud-data-line">
+                    <span className="hud-data-label">Z:</span>
+                    <span className="hud-data-value hud-glitch">000.00</span>
+                </div>
+                <div className="hud-data-line">
+                    <span className="hud-data-label">ROT:</span>
+                    <span className="hud-data-value">45°</span>
+                </div>
+            </div>
+            
+            {/* Bottom status */}
+            <div className="hud-bottom-bar">
+                <div className="hud-timestamp">2026.02.03 | 16:43:02</div>
+                <div className="hud-system-name">HOLOGRAPHIC PROJECTION SYSTEM v3.1</div>
+            </div>
+            
+            {/* Circular targeting reticle */}
+            <div className="hud-reticle">
+                <div className="hud-reticle-ring"></div>
+                <div className="hud-reticle-cross"></div>
+            </div>
+        </div>
+    );
+};

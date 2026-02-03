@@ -1,0 +1,117 @@
+.gesture-detector {
+    position: fixed;
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+    z-index: 100;
+}
+
+.gesture-canvas {
+    border-radius: 12px;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.gesture-status {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 0.9rem;
+    font-family: var(--font-secondary);
+    color: var(--color-text);
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-accent);
+}
+
+.status-indicator.active {
+    background: var(--color-primary);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 5px var(--color-primary);
+    }
+
+    50% {
+        opacity: 0.5;
+        box-shadow: 0 0 20px var(--color-primary);
+    }
+}
+
+.gesture-feedback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-family: var(--font-primary);
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    pointer-events: none;
+    animation: fadeInOut 1s ease-out;
+    white-space: nowrap;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    80% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+.gesture-error {
+    position: absolute;
+    bottom: -60px;
+    right: 0;
+    padding: var(--spacing-sm);
+    border-radius: 8px;
+    background: rgba(255, 0, 0, 0.2);
+    border: 1px solid rgba(255, 0, 0, 0.5);
+    color: #ff6666;
+    font-size: 0.9rem;
+    max-width: 300px;
+}
+
+@media (max-width: 768px) {
+    .gesture-detector {
+        bottom: var(--spacing-sm);
+        right: var(--spacing-sm);
+    }
+
+    .gesture-canvas {
+        width: 240px;
+        height: 180px;
+    }
+}

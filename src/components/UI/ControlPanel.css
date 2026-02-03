@@ -1,0 +1,134 @@
+.control-panel {
+    position: fixed;
+    top: 100px;
+    right: var(--spacing-lg);
+    min-width: 250px;
+    padding: var(--spacing-md);
+    border-radius: 12px;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.control-title {
+    margin: 0 0 var(--spacing-md) 0;
+    font-size: 1.2rem;
+    color: var(--color-primary);
+    font-family: var(--font-primary);
+    letter-spacing: 2px;
+    text-align: center;
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: var(--spacing-xs);
+}
+
+.control-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.control-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--color-primary);
+    transform: translateX(-5px);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.control-btn.active {
+    background: rgba(0, 255, 255, 0.2);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+.btn-icon {
+    font-size: 1.5rem;
+}
+
+.btn-label {
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.gesture-guide {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--glass-border);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.gesture-guide h3 {
+    margin: 0 0 var(--spacing-sm) 0;
+    font-size: 1rem;
+    color: var(--color-secondary);
+    font-family: var(--font-primary);
+}
+
+.gesture-guide ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--spacing-sm) 0;
+}
+
+.gesture-guide li {
+    padding: var(--spacing-xs) 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-text-dim);
+}
+
+.gesture-guide li strong {
+    color: var(--color-primary);
+    margin-right: var(--spacing-xs);
+}
+
+.guide-note {
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    font-style: italic;
+    margin: 0;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .control-panel {
+        top: auto;
+        bottom: 100px;
+        right: var(--spacing-sm);
+        left: var(--spacing-sm);
+        min-width: auto;
+    }
+}

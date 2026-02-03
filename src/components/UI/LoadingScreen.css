@@ -1,0 +1,6 @@
+.loading-percentage {
+    margin-top: var(--spacing-sm);
+    font-size: 1rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-primary);
+}
