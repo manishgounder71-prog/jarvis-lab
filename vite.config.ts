@@ -10,7 +10,8 @@ export default defineConfig({
     },
     build: {
         outDir: 'dist',
-        sourcemap: true
+        sourcemap: true,
+        chunkSizeWarningLimit: 1600,
     },
     optimizeDeps: {
         include: ['three', '@react-three/fiber', '@react-three/drei']
