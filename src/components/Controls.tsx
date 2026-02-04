@@ -1,16 +1,11 @@
 import React, { useRef } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { useAppStore } from '../store/useAppStore';
 import { SCENE_CONFIG } from '../config/sceneConfig';
-import * as THREE from 'three';
 
 export const Controls: React.FC = () => {
-    const { gestureEnabled } = useAppStore();
-    const { camera, size } = useThree();
+    const { setOrbitControls } = useAppStore();
     const controlsRef = useRef<any>(null);
-    const mousePosition = useRef({ x: 0, y: 0 });
-    const targetPosition = useRef(new THREE.Vector3());
 
     // Camera parallax effect - DISABLED to allow full 360 Orbit Control
     // The user wants full manual control ("360 movable"), so we rely entirely on OrbitControls.
@@ -30,22 +25,23 @@ export const Controls: React.FC = () => {
     });
     */
 
-    // Track mouse movement for parallax
+    // Store controls reference in global store
     React.useEffect(() => {
-        const handleMouseMove = (event: MouseEvent) => {
-            // Normalize mouse position to -1 to 1
-            mousePosition.current.x = (event.clientX / size.width) * 2 - 1;
-            mousePosition.current.y = -(event.clientY / size.height) * 2 + 1;
-        };
+        if (controlsRef.current) {
+            setOrbitControls(controlsRef.current);
+        }
+    }, [setOrbitControls]);
 
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, [size]);
+    const handleControlsChange = () => {
+        // Controls updated
+    };
 
-    // Use OrbitControls for rotation (drag), disable when gestures are active
-    return !gestureEnabled ? (
+    // OrbitControls - always render but disable manual control when gestures are active
+    return (
         <OrbitControls
             ref={controlsRef}
+            makeDefault
+            enabled={true}
             enableZoom={true}
             enablePan={false}
             enableRotate={true}
@@ -54,8 +50,10 @@ export const Controls: React.FC = () => {
             minPolarAngle={SCENE_CONFIG.camera.minPolarAngle}
             maxPolarAngle={SCENE_CONFIG.camera.maxPolarAngle}
             enableDamping={true}
-            dampingFactor={0.05}
-            rotateSpeed={0.5}
+            dampingFactor={0.06} // Reduced from 0.1 for more fluid "weight"
+            rotateSpeed={0.8}    // Slightly reduced for preciseness
+            zoomSpeed={1.2}      // Slightly increased for snappier feel
+            onChange={handleControlsChange}
         />
-    ) : null;
+    );
 };

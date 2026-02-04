@@ -5,10 +5,12 @@ interface ModelOption {
     id: string;
     name: string;
     path: string;
-    type: 'arc-reactor' | 'endurance' | 'helicopter' | 'ironman-suit' | 'ironman-mark85' | 'ironman-suit-v2' | 'schematic' | 'schematic-2';
+    type: 'arc-reactor' | 'endurance' | 'helicopter' | 'ironman-suit' | 'ironman-mark85' | 'ironman-suit-v2' | 'schematic' | 'schematic-2' | 'schematic-3' | 'schematic-4';
     embedUrl?: string;
     rotation?: [number, number, number];
     scale?: [number, number, number];
+    isHudMode?: boolean;
+    mediaType?: 'image' | 'video';
 }
 
 const AVAILABLE_MODELS: ModelOption[] = [
@@ -23,6 +25,18 @@ const AVAILABLE_MODELS: ModelOption[] = [
         name: '📐 SCHEMATIC V2',
         path: '/textures/download.1.jpg',
         type: 'schematic-2'
+    },
+    {
+        id: 'reference-schematic-3',
+        name: '🎯 SCHEMATIC V3',
+        path: '/textures/hud-v3.webm',
+        type: 'schematic-3'
+    },
+    {
+        id: 'reference-schematic-4',
+        name: '🔮 SCHEMATIC V4',
+        path: '/textures/hud-v4.webm',
+        type: 'schematic-4'
     },
     {
         id: 'suit-v1',

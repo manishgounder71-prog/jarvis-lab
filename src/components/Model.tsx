@@ -7,20 +7,12 @@ import { parseModelParts, getPartMetadata } from '../utils/modelParser';
 import { SCENE_CONFIG } from '../config/sceneConfig';
 import { createHologramMaterial } from '../shaders/hologramShader';
 
-interface ModelPart {
-    mesh: THREE.Mesh;
-    name: string;
-    originalPosition: THREE.Vector3;
-    explodeDirection: THREE.Vector3;
-}
 
 export const Model: React.FC = () => {
     const groupRef = useRef<THREE.Group>(null);
-    const [parts, setParts] = useState<ModelPart[]>([]);
     const [hoveredPart, setHoveredPart] = useState<string | null>(null);
 
     const {
-        isExploded,
         setSelectedPart,
         setHighlightedPartName,
         setIsLoading,
@@ -37,8 +29,7 @@ export const Model: React.FC = () => {
 
         if (groupRef.current) {
             groupRef.current.add(model);
-            const extractedParts = parseModelParts(model);
-            setParts(extractedParts);
+            parseModelParts(model);
 
             setLoadingProgress(100);
             setTimeout(() => {
@@ -65,24 +56,6 @@ export const Model: React.FC = () => {
         }
     });
 
-    // Handle explosion/assembly animation
-    useEffect(() => {
-        parts.forEach(part => {
-            const targetPosition = isExploded
-                ? part.originalPosition.clone().add(
-                    part.explodeDirection.multiplyScalar(SCENE_CONFIG.explosion.intensity)
-                )
-                : part.originalPosition;
-
-            gsap.to(part.mesh.position, {
-                x: targetPosition.x,
-                y: targetPosition.y,
-                z: targetPosition.z,
-                duration: SCENE_CONFIG.explosion.duration,
-                ease: SCENE_CONFIG.explosion.ease,
-            });
-        });
-    }, [isExploded, parts]);
 
     // Handle part highlighting on hover
     useFrame(() => {

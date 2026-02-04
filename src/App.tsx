@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Scene } from './components/Scene';
-import { GestureDetector } from './components/GestureDetector';
 import { LoadingScreen } from './components/UI/LoadingScreen';
-import { ControlPanel } from './components/UI/ControlPanel';
 import { PartInfo } from './components/UI/PartInfo';
 import { HologramHUD } from './components/UI/HologramHUD';
 import { ModelSelector } from './components/UI/ModelSelector';
+import { SciFiHUD } from './components/UI/SciFiHUD';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import './App.css';
 
@@ -13,7 +12,7 @@ export interface ModelOption {
     id: string;
     name: string;
     path: string;
-    type: 'arc-reactor' | 'endurance' | 'helicopter' | 'ironman-suit' | 'ironman-mark85' | 'ironman-suit-v2' | 'schematic' | 'schematic-2';
+    type: 'arc-reactor' | 'endurance' | 'helicopter' | 'ironman-suit' | 'ironman-mark85' | 'ironman-suit-v2' | 'schematic' | 'schematic-2' | 'schematic-3' | 'schematic-4';
     embedUrl?: string;
     rotation?: [number, number, number];
     scale?: [number, number, number];
@@ -26,6 +25,20 @@ function App() {
         path: '/textures/hologram-download.jpg',
         type: 'schematic-2'
     });
+    const [sciFiHudVisible, setSciFiHudVisible] = useState(false);
+
+    // F1 key toggle for SciFi HUD
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'F1') {
+                e.preventDefault();
+                setSciFiHudVisible(prev => !prev);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
 
     const handleModelChange = (model: ModelOption) => {
         setSelectedModel(model);
@@ -88,14 +101,13 @@ function App() {
                 </div>
 
                 <div className="ui-overlay">
+                    <SciFiHUD visible={sciFiHudVisible} />
                     <HologramHUD />
                     <ModelSelector 
                         currentModel={selectedModel.id} 
                         onModelChange={handleModelChange} 
                     />
-                    <ControlPanel />
                     <PartInfo />
-                    <GestureDetector />
                 </div>
             </div>
         </ErrorBoundary>

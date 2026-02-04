@@ -2,14 +2,13 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
-import { gsap } from 'gsap';
 import { useAppStore } from '../store/useAppStore';
 import { SCENE_CONFIG } from '../config/sceneConfig';
 import { createHologramMaterial } from '../shaders/hologramShader';
 
 interface GLTFLoaderProps {
     modelPath: string;
-    modelType: 'arc-reactor' | 'endurance' | 'helicopter' | 'ironman-suit' | 'ironman-mark85';
+    modelType?: 'arc-reactor' | 'endurance' | 'helicopter' | 'ironman-suit' | 'ironman-mark85' | 'ironman-suit-v2' | 'schematic' | 'schematic-2' | 'schematic-3' | 'schematic-4';
 }
 
 /**
@@ -19,10 +18,8 @@ interface GLTFLoaderProps {
 export const GLTFModelLoader: React.FC<GLTFLoaderProps> = ({ modelPath, modelType }) => {
     const groupRef = useRef<THREE.Group>(null);
     const { scene } = useGLTF(modelPath);
-    const [parts, setParts] = useState<THREE.Mesh[]>([]);
     
     const {
-        isExploded,
         setIsLoading,
         setLoadingProgress,
     } = useAppStore();
@@ -79,7 +76,6 @@ export const GLTFModelLoader: React.FC<GLTFLoaderProps> = ({ modelPath, modelTyp
                 }
             });
             
-            setParts(meshes);
             setLoadingProgress(100);
             setTimeout(() => setIsLoading(false), 500);
         }
@@ -103,37 +99,6 @@ export const GLTFModelLoader: React.FC<GLTFLoaderProps> = ({ modelPath, modelTyp
         }
     });
 
-    // Handle explosion effect
-    useEffect(() => {
-        if (isExploded && parts.length > 0) {
-            parts.forEach((mesh, index) => {
-                const direction = new THREE.Vector3(
-                    (Math.random() - 0.5) * 2,
-                    (Math.random() - 0.5) * 2,
-                    (Math.random() - 0.5) * 2
-                ).normalize();
-                
-                gsap.to(mesh.position, {
-                    x: mesh.position.x + direction.x * 2,
-                    y: mesh.position.y + direction.y * 2,
-                    z: mesh.position.z + direction.z * 2,
-                    duration: 1.5,
-                    ease: 'power2.out',
-                });
-            });
-        } else if (!isExploded && parts.length > 0) {
-            // Reassemble
-            parts.forEach((mesh) => {
-                gsap.to(mesh.position, {
-                    x: 0,
-                    y: 0,
-                    z: 0,
-                    duration: 1.5,
-                    ease: 'power2.inOut',
-                });
-            });
-        }
-    }, [isExploded, parts]);
 
     return (
         <group 

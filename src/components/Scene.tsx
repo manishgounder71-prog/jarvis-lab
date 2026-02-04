@@ -1,7 +1,6 @@
 import React from 'react';
 import { Canvas } from '@react-three/fiber';
-import { EffectComposer, Bloom, ChromaticAberration, Vignette } from '@react-three/postprocessing';
-import { BlendFunction } from 'postprocessing';
+import { Preload, AdaptiveDpr } from '@react-three/drei';
 import * as THREE from 'three';
 import { HologramEnvironment } from './HologramEnvironment';
 import { Model } from './Model';
@@ -27,24 +26,27 @@ export const Scene: React.FC<SceneProps> = ({ selectedModel, onReset }) => {
                 far: SCENE_CONFIG.camera.far,
             }}
             shadows={false}
-            dpr={[1, 2]}
+            dpr={[1, 1.5]} // Capped at 1.5 for performance on high-res screens
             gl={{ 
                 antialias: true, 
                 alpha: true,
                 toneMapping: THREE.ACESFilmicToneMapping,
-                toneMappingExposure: 1.2
+                toneMappingExposure: 1.2,
+                powerPreference: "high-performance", // Request high-performance GPU
+                preserveDrawingBuffer: false,
             }}
             style={{ background: 'transparent' }}
         >
+            <AdaptiveDpr pixelated /> {/* Dynamically reduce dpr when moving */}
+            
             {/* Environment and lighting */}
             <HologramEnvironment />
 
             {/* Main 3D model - switch between procedural, GLTF, and schematic */}
-            {selectedModel.type === 'schematic' || selectedModel.type === 'schematic-2' ? (
+            {['schematic', 'schematic-2', 'schematic-3', 'schematic-4'].includes(selectedModel.type) ? (
                 <HolographicImage 
                     imageUrl={selectedModel.path} 
                     rotation={selectedModel.rotation}
-                    // scale={selectedModel.scale} // Handled internally by responsive logic unless overridden
                 />
             ) : selectedModel.path === 'procedural' ? (
                 <Model />
@@ -79,6 +81,8 @@ export const Scene: React.FC<SceneProps> = ({ selectedModel, onReset }) => {
                     radius={0.8}
                 />
             </EffectComposer> */}
+            {/* Preload all assets for smooth opening */}
+            <Preload all />
         </Canvas>
     );
 };

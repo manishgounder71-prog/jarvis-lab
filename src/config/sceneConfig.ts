@@ -6,8 +6,6 @@ export const SCENE_CONFIG = {
         position: [5, 3, 8] as [number, number, number],
         near: 0.1,
         far: 1000,
-        minDistance: 3,
-        maxDistance: 20,
         minDistance: 2,
         maxDistance: 20,
         minPolarAngle: 0, // Allow looking from top
@@ -33,23 +31,7 @@ export const SCENE_CONFIG = {
         },
     },
 
-    // Explosion settings
-    explosion: {
-        intensity: 3,
-        duration: 1.5,
-        ease: 'power2.inOut',
-    },
-
-    // Gesture sensitivity
-    gestures: {
-        zoomSensitivity: 0.01,
-        rotateSensitivity: 0.005,
-        pinchThreshold: 0.08,
-        spreadThreshold: 0.15,
-        fistThreshold: 0.5,
-        swipeThreshold: 0.02,
-        throttleMs: 16, // ~60fps
-    },
+    // Performance
 
     // Performance
     performance: {

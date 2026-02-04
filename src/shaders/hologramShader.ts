@@ -29,6 +29,7 @@ export const HologramMaterial = {
     `,
     
     fragmentShader: `
+        precision mediump float;
         uniform float time;
         uniform vec3 color;
         uniform float fresnelPower;
@@ -44,41 +45,38 @@ export const HologramMaterial = {
         varying vec2 vUv;
         varying vec3 vViewPosition;
         
-        // Noise function for holographic interference
+        // Fast noise function for holographic interference
         float random(vec2 st) {
-            return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+            return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.545);
         }
         
         void main() {
-            // Fresnel effect - makes edges glow
+            // Fresnel effect - optimized dot product
             vec3 viewDirection = normalize(vViewPosition);
-            float fresnel = pow(1.0 - abs(dot(viewDirection, vNormal)), fresnelPower);
+            float fresnel = 1.0 - abs(dot(viewDirection, vNormal));
+            fresnel = pow(fresnel, fresnelPower);
             
-            // Animated scan lines
-            float scanline = sin(vUv.y * 100.0 + time * scanlineSpeed) * 0.5 + 0.5;
-            scanline = smoothstep(0.3, 0.7, scanline);
+            // Simplified scan lines
+            float scanline = sin(vUv.y * 120.0 + time * scanlineSpeed) * 0.5 + 0.5;
             
-            // Horizontal sweep effect
-            float sweep = fract(vUv.y + time * 0.2);
-            sweep = smoothstep(0.0, scanlineWidth, sweep) * smoothstep(1.0, 1.0 - scanlineWidth, sweep);
+            // Optimized sweep effect
+            float sweep = fract(vUv.y * 0.5 + time * 0.1);
+            sweep = step(0.98, sweep); // Sharp, cheap edge
             
-            // Holographic flicker
-            float flicker = sin(time * flickerSpeed) * 0.5 + 0.5;
-            flicker = mix(1.0 - flickerAmount, 1.0, flicker);
-            
-            // Noise-based interference
-            float noise = random(vUv + time * 0.1) * 0.1;
+            // Fast flicker
+            float flicker = sin(time * flickerSpeed);
+            flicker = mix(1.0 - flickerAmount, 1.0, flicker * 0.5 + 0.5);
             
             // Combine effects
-            vec3 glowColor = color * (fresnel * glowIntensity + 0.3);
-            glowColor += color * sweep * 0.5;
-            glowColor += color * scanline * 0.2;
+            vec3 glowColor = color * (fresnel * glowIntensity + 0.2);
+            glowColor += color * sweep * 0.3;
+            glowColor += color * scanline * 0.1;
             
-            // Final opacity with flicker and noise
-            float finalOpacity = opacity * flicker * (1.0 - noise);
-            finalOpacity = mix(finalOpacity, finalOpacity * fresnel, 0.5);
+            // Render with fresnel-weighted alpha for better "ghostly" look
+            float alpha = opacity * flicker;
+            alpha *= (fresnel * 0.8 + 0.2);
             
-            gl_FragColor = vec4(glowColor, finalOpacity);
+            gl_FragColor = vec4(glowColor, alpha);
         }
     `,
     
