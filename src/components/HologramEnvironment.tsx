@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Grid } from '@react-three/drei';
 import * as THREE from 'three';
-import { SCENE_CONFIG } from '../config/sceneConfig';
 
 export const HologramEnvironment: React.FC = () => {
     const gridRef = useRef<THREE.Group>(null);
@@ -114,14 +113,9 @@ export const HologramEnvironment: React.FC = () => {
             {/* Particle field for holographic "dust" */}
             <points>
                 <bufferGeometry>
-                    <bufferAttribute
-                        attach="attributes-position"
-                        count={500}
-                        array={new Float32Array(
+                        args={[new Float32Array(
                             Array.from({ length: 500 * 3 }, () => (Math.random() - 0.5) * 15)
-                        )}
-                        itemSize={3}
-                    />
+                        ), 3]}
                 </bufferGeometry>
                 <pointsMaterial
                     size={0.02}

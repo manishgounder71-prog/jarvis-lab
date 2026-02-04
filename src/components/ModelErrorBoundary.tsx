@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 import { Html } from '@react-three/drei';
 
 interface Props {
@@ -23,7 +23,7 @@ export class ModelErrorBoundary extends Component<Props, State> {
         return { hasError: true, error };
     }
 
-    public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    public componentDidCatch(error: Error, _errorInfo: ErrorInfo) {
         console.error('Model loading error:', error);
         if (this.props.onError) {
             this.props.onError(error);

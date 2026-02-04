@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
@@ -24,7 +24,6 @@ export const GLTFModelLoader: React.FC<GLTFLoaderProps> = ({ modelPath, modelTyp
         setLoadingProgress,
     } = useAppStore();
 
-    const { raycaster, pointer, camera } = useThree();
 
     // Apply holographic materials to loaded model
     useEffect(() => {
